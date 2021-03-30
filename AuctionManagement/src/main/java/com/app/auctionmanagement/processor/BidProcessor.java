@@ -30,9 +30,7 @@ public class BidProcessor {
 
     @Scheduled(fixedRate = 5000)
     public void process() {
-        //logger.info("Processing...");
         List<Auction> openAuctions = auctionRepository.findByStatus(AuctionStatus.OPEN);
-        logger.info("Found..." + openAuctions);
         openAuctions.stream().filter(auction -> auction.getEndDate().before(new Date())).forEach(auction -> {
             logger.info("Closing Auction : " + auction);
             auction.setStatus(AuctionStatus.CLOSED);
@@ -62,7 +60,7 @@ public class BidProcessor {
 
                     Long winnerId = winningBid.getUser().getId();
                     auction.setWinnerUserId(winnerId);
-                    auction.setWinningBidValue(winningBid.getBidValue());
+                    auction.setCurrentBidValue(winningBid.getBidValue());
                     auctionRepository.save(auction);
                 }
             }

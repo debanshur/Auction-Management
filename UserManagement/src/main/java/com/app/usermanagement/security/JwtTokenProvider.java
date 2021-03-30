@@ -25,10 +25,13 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+
     @Autowired
     UserRepository userRepository;
+
     @Value("${app.jwtSecret}")
     private String jwtSecret;
+
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
@@ -50,17 +53,17 @@ public class JwtTokenProvider {
     public User getUserDetails(String bearerToken) {
 
         if (bearerToken.contains("Bearer ")) {
-            String jwt = bearerToken.substring(7);
+            bearerToken = bearerToken.substring(7);
+        }
 
-            if (StringUtils.hasText(jwt) && validateToken(jwt)) {
-                Long userId = getUserIdFromJWT(jwt);
+        if (StringUtils.hasText(bearerToken) && validateToken(bearerToken)) {
+            Long userId = getUserIdFromJWT(bearerToken);
 
-                User user = userRepository.findById(userId).orElseThrow(
-                        () -> new ResourceNotFoundException("User", "id", userId)
-                );
+            User user = userRepository.findById(userId).orElseThrow(
+                    () -> new ResourceNotFoundException("User", "id", userId)
+            );
 
-                return user;
-            }
+            return user;
         }
 
         return null;

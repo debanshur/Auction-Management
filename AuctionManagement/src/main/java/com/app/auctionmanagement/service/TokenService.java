@@ -1,5 +1,6 @@
 package com.app.auctionmanagement.service;
 
+import com.app.auctionmanagement.exception.ResourceNotFoundException;
 import com.app.auctionmanagement.model.User;
 import com.app.auctionmanagement.repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -33,18 +34,17 @@ public class TokenService {
     public User getUserDetails(String bearerToken) {
 
         if (bearerToken.contains("Bearer ")) {
-            String jwt = bearerToken.substring(7);
-
-            if (StringUtils.hasText(jwt) && validateToken(jwt)) {
-                Long userId = getUserIdFromJWT(jwt);
-
-                User user = userRepository.findById(userId).get();
-
-                return user;
-            }
+            bearerToken = bearerToken.substring(7);
         }
 
-        return null;
+        if (StringUtils.hasText(bearerToken) && validateToken(bearerToken)) {
+            Long userId = getUserIdFromJWT(bearerToken);
+
+            return userRepository.findById(userId)
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+        }
+
+        throw new IllegalArgumentException("Invalid Token");
 
     }
 

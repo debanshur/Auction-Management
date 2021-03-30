@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -21,15 +22,20 @@ public class Auction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long auctionId;
 
+    @NotBlank
     private String auctionName;
-    private Integer minPrice;
-    private Integer minIncrement;
+
+    @NotBlank
     private Date startDate;
+
+    @NotBlank
     private Date endDate;
+
+    private Integer startPrice;
+    private Integer minIncrement;
     private AuctionStatus status;
     private Long winnerUserId;
-    private Integer winningBidValue;
-    private String productName;
+    private Integer currentBidValue;
 
     @OneToOne()
     @JoinColumn(name = "productId")
@@ -38,10 +44,23 @@ public class Auction {
     public Auction() {
     }
 
-    public Auction(Long auctionId, String auctionName, Integer minPrice, Integer minIncrement, Date startDate, Date endDate,
+    public Auction(String auctionName, Integer startPrice, Integer minIncrement, Date startDate, Date endDate,
+                   AuctionStatus status, Product product) {
+        this.auctionName = auctionName;
+        this.startPrice = startPrice;
+        this.currentBidValue = 0;
+        this.minIncrement = minIncrement;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.product = product;
+    }
+
+    public Auction(String auctionName, Integer startPrice, Integer minIncrement, Date startDate, Date endDate,
                    AuctionStatus status, Long winnerUserId, Product product) {
-        this.auctionId = auctionId;
-        this.minPrice = minPrice;
+        this.auctionName = auctionName;
+        this.startPrice = startPrice;
+        this.currentBidValue = 0;
         this.minIncrement = minIncrement;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -55,16 +74,12 @@ public class Auction {
         return auctionId;
     }
 
-    public void setAuctionId(Long auctionId) {
-        this.auctionId = auctionId;
+    public Integer getStartPrice() {
+        return startPrice;
     }
 
-    public Integer getMinPrice() {
-        return minPrice;
-    }
-
-    public void setMinPrice(Integer minPrice) {
-        this.minPrice = minPrice;
+    public void setStartPrice(Integer startPrice) {
+        this.startPrice = startPrice;
     }
 
     public Integer getMinIncrement() {
@@ -115,14 +130,6 @@ public class Auction {
         this.product = product;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
     public String getAuctionName() {
         return auctionName;
     }
@@ -131,18 +138,18 @@ public class Auction {
         this.auctionName = auctionName;
     }
 
-    public Integer getWinningBidValue() {
-        return winningBidValue;
+    public Integer getCurrentBidValue() {
+        return currentBidValue;
     }
 
-    public void setWinningBidValue(Integer winningBidValue) {
-        this.winningBidValue = winningBidValue;
+    public void setCurrentBidValue(Integer currentBidValue) {
+        this.currentBidValue = currentBidValue;
     }
 
 
     @Override
     public String toString() {
-        return "Auction [auctionId=" + auctionId + ", minPrice=" + minPrice + ", minIncrement=" + minIncrement
+        return "Auction [auctionId=" + auctionId + ", startPrice=" + startPrice + ", minIncrement=" + minIncrement
                 + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + ", winnerUserId="
                 + winnerUserId + ", product=" + product + ", user=" + "" + "]";
     }

@@ -9,7 +9,7 @@ public class SecurityService {
     @Value("${api.secret.key}")
     private String key;
 
-    public boolean hasKey(String apiUserKey) {
+    public boolean validateKey(String apiUserKey) {
         return key.equals(apiUserKey);
     }
 }

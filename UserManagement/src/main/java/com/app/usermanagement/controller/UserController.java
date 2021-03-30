@@ -29,7 +29,7 @@ public class UserController {
         return userService.getCurrentUser(bearerToken);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/authenticate")
     public JwtAuthResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         return userService.authenticateUser(loginRequest);
     }

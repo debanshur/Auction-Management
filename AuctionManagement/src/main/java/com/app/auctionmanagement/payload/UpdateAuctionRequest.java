@@ -1,24 +1,26 @@
 package com.app.auctionmanagement.payload;
 
-import com.app.auctionmanagement.model.AuctionStatus;
-
 import java.util.Date;
 
-public class UpdateRequest {
-    private Integer minPrice;
+public class UpdateAuctionRequest {
+    private String auctionName;
     private Integer minIncrement;
     private Date startDate;
     private Date endDate;
-    private AuctionStatus status;
-    private Long winnerUserId;
 
-
-    public Integer getMinPrice() {
-        return minPrice;
+    public UpdateAuctionRequest(String auctionName, Integer minIncrement, Date startDate, Date endDate) {
+        this.auctionName = auctionName;
+        this.minIncrement = minIncrement;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
-    public void setMinPrice(Integer minPrice) {
-        this.minPrice = minPrice;
+    public String getAuctionName() {
+        return auctionName;
+    }
+
+    public void setAuctionName(String auctionName) {
+        this.auctionName = auctionName;
     }
 
     public Integer getMinIncrement() {
@@ -43,21 +45,5 @@ public class UpdateRequest {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public AuctionStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AuctionStatus status) {
-        this.status = status;
-    }
-
-    public Long getWinnerUserId() {
-        return winnerUserId;
-    }
-
-    public void setWinnerUserId(Long winnerUserId) {
-        this.winnerUserId = winnerUserId;
     }
 }

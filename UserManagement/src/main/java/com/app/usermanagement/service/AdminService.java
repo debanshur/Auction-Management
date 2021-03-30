@@ -2,17 +2,22 @@ package com.app.usermanagement.service;
 
 import com.app.usermanagement.exception.ResourceNotFoundException;
 import com.app.usermanagement.model.User;
-import com.app.usermanagement.payload.UpdateRequest;
+import com.app.usermanagement.payload.UpdateUserRequest;
 import com.app.usermanagement.payload.UserProfile;
 import com.app.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -45,10 +50,19 @@ public class AdminService {
     }
 
 
-    public void updateUser(String username, UpdateRequest updateRequest) {
+    public void updateUser(String username, UpdateUserRequest updateUserRequest) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-        user.setName(updateRequest.getName());
+        if (Objects.nonNull(updateUserRequest.getName()) &&
+                !updateUserRequest.getName().isEmpty()) {
+            user.setName(updateUserRequest.getName());
+        }
+
+        if (Objects.nonNull(updateUserRequest.getPassword()) &&
+                !updateUserRequest.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         userRepository.save(user);
     }
 

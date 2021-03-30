@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -19,12 +20,12 @@ public class Bid implements Comparable<Bid> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long bidId;
 
+    @NotBlank
     private Integer bidValue;
 
     @Enumerated(EnumType.STRING)
     private BidStatus bidStatus;
 
-    private String auctionName;
     private Date date;
 
     @OneToOne()
@@ -32,11 +33,14 @@ public class Bid implements Comparable<Bid> {
     private Auction auction;
 
     @OneToOne()
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "userId")
     private User user;
 
-    public Bid(Long bidId, Integer bidValue, Date date, Auction auction, User user, BidStatus bidStatus) {
-        this.bidId = bidId;
+    public Bid() {
+    }
+
+
+    public Bid(Integer bidValue, Date date, Auction auction, User user, BidStatus bidStatus) {
         this.bidValue = bidValue;
         this.date = date;
         this.auction = auction;
@@ -44,23 +48,8 @@ public class Bid implements Comparable<Bid> {
         this.bidStatus = bidStatus;
     }
 
-    public Bid() {
-    }
-
-    public String getAuctionName() {
-        return auctionName;
-    }
-
-    public void setAuctionName(String auctionName) {
-        this.auctionName = auctionName;
-    }
-
     public Long getBidId() {
         return bidId;
-    }
-
-    public void setBidId(Long bidId) {
-        this.bidId = bidId;
     }
 
     public Integer getBidValue() {
@@ -106,7 +95,7 @@ public class Bid implements Comparable<Bid> {
     @Override
     public int compareTo(Bid o) {
         int bidCompareValue = o.getBidValue().compareTo(this.getBidValue());
-        if(bidCompareValue == 0) {
+        if (bidCompareValue == 0) {
             return this.getDate().compareTo(o.getDate());
         }
         return bidCompareValue;

@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "product", uniqueConstraints = {
@@ -18,29 +19,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productId;
 
+    @NotBlank
     private String productName;
     private String description;
+    private Boolean auctionStatus;
 
 
-    public Product(Long productId, String productName, String description) {
-        super();
-        this.productId = productId;
+    public Product(String productName, String description, Boolean auctionStatus) {
         this.productName = productName;
         this.description = description;
+        this.auctionStatus = auctionStatus;
     }
-
 
     public Product() {
-        super();
     }
-
 
     public Long getProductId() {
         return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
     }
 
     public String getProductName() {
@@ -57,6 +52,14 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getAuctionStatus() {
+        return auctionStatus;
+    }
+
+    public void setAuctionStatus(Boolean auctionStatus) {
+        this.auctionStatus = auctionStatus;
     }
 
     @Override

@@ -1,6 +1,6 @@
-### Auction Management and Bidding
+## Auction Management and Bidding
 
-## Steps to Run the services
+### Steps to Run the services
 
 1. **Clone the application**
 
@@ -20,33 +20,38 @@
 
 	+ change `spring.datasource.username` and `spring.datasource.password`
 
+    + change `api.secret.key` for Admin Secret Key
+
 4. **Copy properties file to Services**
 
 	```bash
-    	cp application.properties UserManagement/src/main/resources/
-    	cp application.properties AuctionManagement/src/main/resources/
+    cp application.properties UserManagement/src/main/resources/
+    cp application.properties AuctionManagement/src/main/resources/
     ```
 
 5. **Docker build User Management**
     ```bash
-        cd UserManagement
-        docker build --tag user-service:latest -f Dockerfile .
+    cd UserManagement
+    docker build --tag user-service:latest -f Dockerfile .
     ```
 
 6. **Docker build Auction Management**
     ```bash
-        cd AuctionManagement
-        docker build --tag auction-service:latest -f Dockerfile .
+    cd AuctionManagement
+    docker build --tag auction-service:latest -f Dockerfile .
      ```
 
 7. **Docker Run**
     ```bash
-        docker run --network host user-service:latest -d
-        docker run --network host auction-service:latest -d
+    docker run -d --network host user-service:latest
+    docker run -d --network host auction-service:latest
      ```
 
 ### API Specification
 
+1. **Swagger UI**
+
     + User Management    : `http://localhost:9000/swagger-ui.html`
+
     + Auction Management : `http://localhost:9001/swagger-ui.html`
  

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	public User getUserById(Long userId) {
-		return userRepository.findById(userId).get();
-	}
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).get();
+    }
 
 
 }
