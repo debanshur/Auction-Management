@@ -14,7 +14,7 @@
 	create database auction_db
 	```
 
-3. **Change MySQL username and password**
+3. **Change MySQL username and password and Admin Secret Key**
 
 	+ open `application.properties` file.
 
@@ -54,4 +54,20 @@
     + User Management    : `http://localhost:9000/swagger-ui.html`
 
     + Auction Management : `http://localhost:9001/swagger-ui.html`
- 
+
+
+### Build and Run the Services Automatically
+
+1. **Change MySQL username and password and Admin Sercet Key**
+
+	+ open `application.properties` file.
+
+	+ change `spring.datasource.username` and `spring.datasource.password`
+
+    + change `api.secret.key` for Admin Secret Key
+
+2. **Run the script**
+    ```bash
+    sh deploy.sh
+    ```
+
